@@ -1,0 +1,246 @@
+﻿<!doctype html>
+<html>
+   <head>
+      <meta name = "charset" content="UTF-8">
+      <title>웹프로그래밍응용 (XML)</title>
+      <link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
+
+      <style type = "text/css">
+         .font{font-family:'Jua', sans-serif}
+         h2{text-align:center; margin:20px; margin-top:50px}
+         p{text-align:center; font-size: 25px; margin:50px}
+         
+      </style>
+      <script language="Javascript">
+         var xdoc, rootNode, bnode;
+         var page_no, page_sum;
+      function fileload()
+      {
+          xdoc = new ActiveXObject("Msxml.DOMDocument");
+          xdoc.async = false;
+          xdoc.load('list.xml');
+          rootNode = xdoc.documentElement;
+          if(xdoc.parseError.reason)
+              alert('에러이유: '+xdoc.parseError.reason);
+          
+          else
+              alert('파일로드 성공\n');
+         goList(0);    
+      }
+      function showallnewslist(filename){
+   
+         resDiv1.innerText = xdoc.xml;
+      }
+      function searchoriginalnews(){
+           var val0 = document.getElementsByName('checkone');      
+         if(val0[0].checked==true){
+
+            var val1 = select.category.value;
+            alert("["+val1+"]카테고리를 선택하셨습니다.");
+
+            if(val1=='음식'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='100px' src='http://younglove321.dothome.co.kr/%EA%B8%B0%EC%82%AC1_final.xml'></iframe></br><iframe width='100%'' height='100px'src='http://younglove321.dothome.co.kr/%EA%B8%B0%EC%82%AC2_final.xml'></iframe>"
+            }
+            if(val1=='IT'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://luiej98.dothome.co.kr/news1-2.xml'></iframe></br><iframe width='100%'' height='1000px'src='http://luiej98.dothome.co.kr/news2-2.xml'></iframe>"
+            }
+            if(val1=='영화'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://kalo5666.dothome.co.kr/%EA%B8%B0%EC%82%AC1_%EA%B9%80%EC%86%94%EB%AF%BC_%ED%99%94%EB%A0%A4.xml'></iframe></br><iframe width='100%'' height='1000px'src='http://kalo5666.dothome.co.kr/%EA%B8%B0%EC%82%AC2_%EA%B9%80%EC%86%94%EB%AF%BC_%ED%99%94%EB%A0%A4.xml'></iframe>"
+            }
+            if(val1=='여행'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='https://s3.ap-northeast-2.amazonaws.com/jinminji/final_xsl%EA%B8%B0%EC%82%AC2.xml'></iframe></br><iframe width='100%'' height='1000px'src='https://s3.ap-northeast-2.amazonaws.com/jinminji/final_xsl%EA%B8%B0%EC%82%AC1.xml'></iframe>"
+            }
+         }
+         if(val0[1].checked==true){
+
+            var val2 = select.titles.value;
+            alert("제목["+val2+"]를 선택하셨습니다.");
+
+            if(val2=='title1'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://younglove321.dothome.co.kr/%EA%B8%B0%EC%82%AC1_final.xml'>"
+            }
+            if(val2=='title2'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://younglove321.dothome.co.kr/%EA%B8%B0%EC%82%AC2_final.xml'>"
+            }
+            if(val2=='title3'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://luiej98.dothome.co.kr/news1-2.xml'>"
+            }
+            if(val2=='title4'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://luiej98.dothome.co.kr/news2-2.xml'>"
+            }
+            if(val2=='title5'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='100px' src='http://kalo5666.dothome.co.kr/%EA%B8%B0%EC%82%AC1_%EA%B9%80%EC%86%94%EB%AF%BC_%ED%99%94%EB%A0%A4.xml'>"
+            }
+            if(val2=='title6'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='http://kalo5666.dothome.co.kr/%EA%B8%B0%EC%82%AC2_%EA%B9%80%EC%86%94%EB%AF%BC_%ED%99%94%EB%A0%A4.xml'>"
+            }
+            if(val2=='title7'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='https://s3.ap-northeast-2.amazonaws.com/jinminji/final_xsl%EA%B8%B0%EC%82%AC2.xml'>"
+            }
+            if(val2=='title8'){
+            document.getElementById('resDiv1').innerHTML="<iframe width='100%'' height='1000px' src='https://s3.ap-northeast-2.amazonaws.com/jinminji/final_xsl%EA%B8%B0%EC%82%AC1.xml'>"
+            }
+         }
+
+      }
+      function closeresult(){
+         resDiv1.innerText = "";
+      }
+      function goList(num)
+      { 
+         page_sum = rootNode.childNodes.length;
+      
+         switch (num) 
+         {
+         case 0 : page_no=0; break;
+         case 1 : if (page_no > 0) page_no=page_no - 1; break;
+         case 2 : page_no=page_no + 1; 
+            if (page_no == page_sum) page_no=page_no-1;  break;
+         case 3 : page_no=page_sum-1; break;
+         }
+         
+         p_no.innerText=page_no+1;
+         p_sum.innerText=page_sum;
+         
+         bnode = rootNode.childNodes(page_no);
+         controls.b_category.value = bnode.childNodes(0).text;
+         controls.b_image.value = bnode.childNodes(1).getAttribute('file');
+         controls.b_title.value = bnode.childNodes(2).text;
+         controls.b_link.value =  bnode.childNodes(3).getAttribute('filename');
+         
+         resDiv2.innerText = bnode.xml;
+      }
+      function newAppend()
+      {     
+         p_no.innerText='?';
+         p_sum.innerText=page_sum;
+         
+         controls.b_category.value = '';
+         controls.b_image.value = '';
+         controls.b_title.value = '';
+         controls.b_link.value =  '';
+         
+         resDiv2.innerText = "<summary>\n  <category/>\n  <pic file=''/>\n  <title/>\n  <link filename=''/>\n</summary>";
+      }
+      function saveAppend()
+   {     
+      if (p_no.innerText=='?')  // 신규  
+      {  
+         bnode = xdoc.createElement('summary');       
+         cnode = xdoc.createElement('category');
+         bnode.appendChild(cnode);
+         cnode = xdoc.createElement('pic');
+         cnode.setAttribute('file','');
+         bnode.appendChild(cnode);
+         cnode = xdoc.createElement('title');
+         bnode.appendChild(cnode);
+         cnode = xdoc.createElement('link');
+         cnode.setAttribute('filename','');
+         bnode.appendChild(cnode);
+         
+         rootNode.appendChild(bnode);
+
+         page_no = page_sum;
+         page_sum++;
+         p_no.innerText=page_no+1;
+         p_sum.innerText=page_sum;
+      }
+
+      bnode = rootNode.childNodes(page_no);
+      bnode.childNodes(0).text = controls.b_category.value;
+      bnode.childNodes(1).setAttribute("file",controls.b_image.value);
+      bnode.childNodes(2).text = controls.b_title.value;
+      bnode.childNodes(3).setAttribute("filename",controls.b_link.value);
+
+      resDiv2.innerText = bnode.xml;
+   }
+      </script>
+   </head>
+   <body class="font">
+      <h2>실습 #5(a) XML 문서 변환 개인 실습</h2>
+      
+      </br></br>
+      <input style="margin-left:450px;" type="button" name="btn1" value="기사1 간단히보기" onclick="location.href='news1-1.xml'">
+      <input style="margin-left:100px;" type="button" name="btn2" value="기사1 멋있게보기" onclick="location.href='news1-2.xml'"></br></br>
+      <input style="margin-left:450px;" type="button" name="btn3" value="기사2 간단히보기" onclick="location.href='news2-1.xml' ">
+      <input style="margin-left:100px;" type="button" name="btn4" value="기사2 멋있게보기" onclick="location.href='news2-2.xml' "></br></br>
+      <input style="margin-left:450px;" type="button" name="btn6" value="XSLT-1 소스보기" onclick="location.href='simple.xsl' ">
+      <input style="margin-left:100px;" type="button" name="btn7" value="XSLT-2 소스보기" onclick="location.href='final.xsl' ">
+
+      <h2>실습 #6(개인과제) DOM으로 XML 뉴스 문서 검색/편집기 만들기</h2>
+      <table height="30px" width="70%" align="center" bgcolor="#CCFF99" border="1">
+
+         <tr>
+            <td>
+               (1) 기사 선택화면</br>
+                <input type="button" name="btn8" value="뉴스목록 파일로드" onclick="fileload()">
+            </td>
+            <td>(2) 기사목록 편집화면</br>
+                <input type="button" name="btn9" value="뉴스목록 파일로드" onclick="fileload()">
+            </td>
+         </tr>
+
+         <tr>
+            <td>전체보기 
+                <input type="button" name="btn10" value="전체기사 목록보기" onclick="showallnewslist('list.xml')">
+                <input type="button" name="btn10" value="닫기" onclick="closeresult()">
+            </td>
+            <td>새로 만들기
+                <input type="button" name="btn11" value="신규기사작성" onclick="newAppend()"></td>
+         </tr>
+
+         <tr>
+            <td>검색하기</br></br>
+               <form id=select method=get>
+                <input type="radio" name="checkone" value="radio1" checked />카테고리 : 
+                <select name="category" size="1"> 
+                  <option selected value='음식'>음식</option>
+                  <option value='IT'>IT</option>
+                  <option value='영화'>영화</option>
+                  <option value='여행'>여행</option>
+                  <option>기타 *반드시*</option>
+               </select></br>
+               <input type="radio" name="checkone" value="radio2" />제목 : 
+                <select name="titles" size="1">
+                  <option selected value='title1'>[환절기 건강 관리] 비염에 좋은 음식, 비염에 좋은 차로 면역력 높이기</option>
+                  <option value='title2'>생활의 달인 은둔식달 숙대앞 매콤 탕수육 맛집 "정" 반죽비법은?</option>
+                  <option value='title3'>화웨이가 세계 스마트폰 시장 판매점유율 2위를 차지하다.</option>
+                  <option value='title4'>BMW가 무인오토바이 시연영상을 공개했다(영상)</option>
+                  <option value='title5'>영화 '서치'현재 상영 영화 관객수 1위</option>
+                  <option value='title6'>영화 '인터스텔라' 재개봉 화제</option>
+                  <option value='title7'>하트독, 강원도 가을 여행지 4곳 추천</option>
+                  <option value='title8'>Visa가 안내하는 한가위 해외여행 시 안전한 카드 사용법은?</option>
+               </select></br></br>
+               </form>
+               <input type="button" name="btn12" value="기사원문검색" onclick="searchoriginalnews()">
+               <input type="button" name="btn10" value="닫기" onclick="closeresult()">
+            </td>
+            <td>
+               뉴스요약 목록보기, 새로운 뉴스요약 추가하기<br><br>
+               <FORM id=controls method=get>
+              <font size="2" face="맑은 고딕">[<span id="p_no">0</span>/<span id="p_sum">n</span>] &nbsp;<INPUT onclick=goList(0) type=button value=|◀>&nbsp;&nbsp;<INPUT onclick=goList(1) type=button value=" ◀ "> 
+                    &nbsp;<INPUT onclick=goList(2) type=button value=" ▶ ">&nbsp; 
+                    <INPUT onclick=goList(3) type=button value=▶|> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+               </font>         <font size="2" face="맑은 고딕"><BR>&nbsp;카테고리 : <INPUT size="7" name=b_category>&nbsp;&nbsp;이미지 : <INPUT 
+               name=b_image size="20"> <br>&nbsp;제목 : 
+               <INPUT size="30" name=b_title> &nbsp;링크 : <INPUT size="20" 
+               name=b_link><br><br>
+               <INPUT onclick="saveAppend();" type=button value=" 저 장 "></font></FORM> 
+            </td>
+         </tr>
+
+         <tr>
+            <td><div id=resDiv1>
+                <font size="2" face="맑은 고딕">&nbsp;</font>
+                </div>  
+            </td>
+            <td><div id=resDiv2>
+                <font size="2" face="맑은 고딕">&nbsp;</font>
+                </div>                        
+            </td>
+         </tr>
+
+      </table>
+      
+   </body>
+</html>
